@@ -1,3 +1,3 @@
 # PitchPerfect
 First Project in Udacity nanodegree course 
-![](pitchPerfect%Advantage.jpg)
+![](pitchPerfect%20Advantage.jpg)

@@ -34,24 +34,31 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     enum recordingState { case recording, notRecording }
     
     //**** TODO: Fix the function
-    func configureUIButton(_ RecordingState: recordingState) {
-        //the reviewer "Francisco" helped with this shorter code, thanks to him.
-        let isRecording = RecordingState == .recording
-        setRecordingButtonsEnabled(!isRecording)
+//    func configureUIButton(_ RecordingState: recordingState) {
+//        //the reviewer "Francisco" helped with this shorter code, thanks to him.
+//        let isRecording = RecordingState == .recording
+//        setRecordingButtonsEnabled(!isRecording)
+//        stopRecordingButton.isEnabled = isRecording
+//        recordingLabel.text = isRecording ? "stop recording..." : "tap to record..."
+//    }
+//
+//    func setRecordingButtonsEnabled(_ enabled: Bool) {
+//        recordingButton.isEnabled = enabled
+//    }
+//
+
+    func configureUI(isRecording: Bool) {
+//        let isRecording = recordingState = .recording
+//        setRecordingButtonsEnabled(!isRecording)
         stopRecordingButton.isEnabled = isRecording
         recordingLabel.text = isRecording ? "stop recording..." : "tap to record..."
     }
-    
-    func setRecordingButtonsEnabled(_ enabled: Bool) {
-        recordingButton.isEnabled = enabled
-    }
-    
-
     @IBAction func recordAudio(_ sender: Any) {
         
       recordingLabel.text = "Recording in Progress"
       stopRecordingButton.isEnabled = true
         recordingButton.isEnabled = false
+        configureUI(isRecording: true)
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -71,7 +78,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         recordingButton.isEnabled = true
         stopRecordingButton.isEnabled = false
         recordingLabel.text = "Tap To Record"
-        
+         configureUI(isRecording: false)
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
@@ -90,13 +97,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     // Moving to another VC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == stopRecordingSegue {
-            let PlaySoundsVC = segue.destination as! PlaySoundsViewController
-            let recrodedAudioURL = sender as! URL
-            PlaySoundsVC.recordingAudioURL = recrodedAudioURL
+        guard segue.identifier == stopRecordingSegue else { return }
+        guard let playSoundsVC = segue.destination as? PlaySoundsViewController else { return }
+        guard let recordedAudioURL = sender as? URL else { return }
+        playSoundsVC.recordingAudioURL = recordedAudioURL
         }
     }
-}
+
     
 
 

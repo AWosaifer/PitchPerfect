@@ -34,7 +34,7 @@ class PlaySoundsViewController: UIViewController {
     // MARK: Actions
     // Play Button Action
     @IBAction func playSoundForButton(_ sender: UIButton) {
-        print("Play Sound Button Pressed")
+      
         switch(ButtonType(rawValue: sender.tag)!) {
         case .slow:
             playSound(rate: 0.5)
@@ -55,7 +55,7 @@ class PlaySoundsViewController: UIViewController {
     
     // Stop Button Action
     @IBAction func stopButtonPressed(_ sender: AnyObject) {
-        print("Stop Audio Button Pressed")
+
         stopAudio()
     }
     
@@ -65,6 +65,7 @@ class PlaySoundsViewController: UIViewController {
         setupAudio()
     }
     override func viewWillAppear(_ animated: Bool) {
+   super.viewWillAppear(animated)
         configureUI(.notPlaying)
     }
     
